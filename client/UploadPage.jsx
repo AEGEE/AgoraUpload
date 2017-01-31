@@ -12,7 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Submissions from '/imports/Submission.js';
+import { Submission, SubmissionFiles } from '/imports/Submission.js';
 
 export default class UploadPage extends Component {
 	constructor(props, context) {
