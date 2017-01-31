@@ -1,0 +1,7 @@
+// Copy to /private/settings.json to use. Can not be read from the client.
+// DO NOT HAVE THIS PUBLIC ANYWHERE.
+{
+	"username": "admin-user",
+	"password": "admin-pass",
+	"email": "admin-email"
+}
