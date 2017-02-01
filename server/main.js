@@ -20,7 +20,7 @@ Meteor.startup(() => {
 
 	// Fetch up-to-date locals
 	console.log("Fetching locals");
-	HTTP.get("https://locals.aegee.org/locals.json", {}, (err, json) => {
+	HTTP.get("https://130.89.148.25/locals.json", {}, (err, json) => {
 		console.log("Got data, now parse:", err, json);
 		data = JSON.parse(json);
 	});

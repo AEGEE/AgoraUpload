@@ -3,7 +3,10 @@ import Helmet from 'react-helmet';
 
 import { createContainer } from 'meteor/react-meteor-data';
 
-import Submissions from '/lib/Submission.js';
+import { Submission } from '/lib/Submission.js';
+import FilePreview from '/client/FilePreview.jsx';
+
+import Paper from 'material-ui/Paper';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -17,16 +20,26 @@ class AdminPage extends Component {
 	}
 
 	render() {
+		if (!this.props.ready) return (<div>Loading</div>);
+
 		return (
 			<div>
-				<Helmet title="Admin" />
-				Login Page
+				<Helmet title={this.props.submission.title} />
+				<Paper style={{padding: '20px'}}>
+					<h1>{this.props.submission.title}</h1>
+					<FilePreview code={this.props.submission.file} />
+				</Paper>
 			</div>
 		);
 	}
 }
 
 export default createContainer((props) => {
-	// TODO: Fetch the single submission
-	return;
+	let code = props.routeParams.code;
+	let submissionHandle = Meteor.subscribe('submission', code);
+	let submission = Submission.findOne(code);
+	return {
+		ready: submissionHandle.ready && submission,
+		submission: submission,
+	};
 }, AdminPage);

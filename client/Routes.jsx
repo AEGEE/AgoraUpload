@@ -15,6 +15,7 @@ export default renderRoutes = function() {
 				<Route path="/" component={UploadPage} />
 				<Route path="/login" component={LoginPage} />
 				<Route path="/admin" component={AdminPage} />
+				<Route path="/submission/:code" component={SubmissionPage} />
 			</Route>
 		</Router>
 	);

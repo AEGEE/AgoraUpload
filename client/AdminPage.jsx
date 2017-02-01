@@ -7,6 +7,10 @@ import { Submission, SubmissionFiles } from '/lib/Submission.js';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import Paper from 'material-ui/Paper';
+import { List, ListItem } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+
 import Submissions from '/lib/Submission.js';
 
 // TODO: Disallow page when not logged in
@@ -19,19 +23,32 @@ class AdminPage extends Component {
 		if (!this.props.ready) return (<div>Loading...</div>);
 		let submissions = [];
 		this.props.submissions.forEach((submission) => {
+			let icon;
+			let file = SubmissionFiles.findOne(submission.file);
+			if (file.isImage()) {
+				icon = (<Avatar src={file.url()} />);
+			}
+
 			submissions.push(
-				<div key={submission._id}>
-					<h3>{submission.title}</h3>
-					<div>Version {submission.version}</div>
-					<div>File Preview</div>
-				</div>
+				<Link key={submission._id} to={'/submission/' + submission._id}>
+					<ListItem
+						primaryText={submission.title}
+						secondaryText={'v'+submission.version + ', ' + submission.local + ', ' + submission.updatedAt}
+						rightAvatar={icon}
+						style={{textDecoration: 'none'}}
+					/>
+				</Link>
 			);
 		});
 		return (
 			<div>
 				<Helmet title="Admin" />
-				Admin Page (shows all submissions)
-				{submissions}
+				<Paper style={{padding: '20px'}}>
+					<h1>All Submissions</h1>
+					<List>
+						{submissions}
+					</List>
+				</Paper>
 			</div>
 		);
 	}
