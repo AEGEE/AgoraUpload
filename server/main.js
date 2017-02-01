@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 import { Accounts } from 'meteor/accounts-base';
-import http from 'http';
 
 let locals;
 Meteor.startup(() => {
@@ -20,9 +20,9 @@ Meteor.startup(() => {
 
 	// Fetch up-to-date locals
 	console.log("Fetching locals");
-	Meteor.http.call("GET",  "https://locals.aegee.org/locals.json", (json) => {
+	HTTP.get("https://locals.aegee.org/locals.json", {}, (err, json) => {
+		console.log("Got data, now parse:", err, json);
 		data = JSON.parse(json);
-		console.log("Got data, now parse:", data);
 	});
 
 	locals = {

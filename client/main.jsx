@@ -5,7 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import renderRoutes from './Routes.jsx';
 
-import '../imports/Submission.js';
+import '/lib/Submission.js';
 
 Meteor.startup(() => {
 	injectTapEventPlugin();

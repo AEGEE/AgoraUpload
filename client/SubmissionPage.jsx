@@ -3,10 +3,13 @@ import Helmet from 'react-helmet';
 
 import { createContainer } from 'meteor/react-meteor-data';
 
-import Submissions from '/imports/Submission.js';
+import Submissions from '/lib/Submission.js';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+
+// TODO: Show state of current submission
+// TODO: Show preview
 
 class AdminPage extends Component {
 	constructor(props, context) {
@@ -24,5 +27,6 @@ class AdminPage extends Component {
 }
 
 export default createContainer((props) => {
+	// TODO: Fetch the single submission
 	return;
 }, AdminPage);
