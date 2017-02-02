@@ -15,20 +15,21 @@ After initial installation, you can simply start the app again by running `meteo
 TODO
 =====
 
-- [x] Set up basic project
-- [x] Default upload page
-- [x] Actually upload files
-- [ ] Email confirmation
-- [x] Add admin interface
-- [x] Allow access to submission page with direct url
-- [x] Add admin login
-- [ ] Send emails on submission (with the direct URLs)
-- [ ] Add preview
-  - [x] Image
-  - [ ] PDF
-  - [ ] Video
 - [ ] Write a readme
   - [x] Installation
   - [x] Running
   - [ ] Configuration(?)
   - [ ] Screenshots
+- [x] Set up basic project
+- [x] Default upload page
+- [x] Actually upload files
+- [x] Add admin interface
+- [x] Allow access to submission page with direct url
+- [x] Add admin login
+- [x] Upload new versions
+- [ ] Email confirmation
+- [ ] Send emails on submission (with the direct URLs)
+- [ ] Add preview
+  - [x] Image
+  - [x] PDF
+  - [x] Video

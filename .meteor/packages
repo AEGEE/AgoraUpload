@@ -21,7 +21,6 @@ shell-server@0.2.1            # Server-side component of the `meteor shell` comm
 cfs:standard-packages
 cfs:filesystem
 react-meteor-data
-pascoual:pdfjs
 accounts-base
 accounts-password
 jagi:astronomy

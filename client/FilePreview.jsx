@@ -4,6 +4,7 @@ import { SubmissionFiles } from '/lib/Submission.js';
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router';
+import PDF from 'react-pdfjs';
 
 class FilePreview extends Component {
 	render() {
@@ -16,23 +17,34 @@ class FilePreview extends Component {
 			preview = (
 				<img src={file.url()} style={{width: '100%'}}/>
 			);
-		} else {
+		} else if (file.isVideo()) {
 			preview = (
-				<div>No preview available</div>
+				<video src={file.url()} style={{width: '100%'}} controls/>
 			);
+		} else {
+			let extension = file.getExtension();
+			console.log('Extension', extension);
+			if (extension == 'pdf') {
+				preview = (
+					<div>
+						<PDF
+							file={file.url()}
+							style={{width: '100%', margin: '10px'}}
+						/>
+						One page preview
+					</div>
+				);
+			} else {
+				preview = (
+					<div>No preview available</div>
+				);
+			}
 		}
 
 		return (
 			<div>
 				{preview}
-				<RaisedButton label="Download" />
-				<div>
-					<RaisedButton label="Submit new version" disabled={true} />
-					<RaisedButton label="select file" onTouchTap={() => {
-						this.refs.file.click();
-					}}/>
-					<input ref='file' type='file' id='file-input' style={{display: 'none'}} />
-				</div>
+				<RaisedButton label="Download" primary={true} />
 			</div>
 		);
 	}
