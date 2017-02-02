@@ -43,23 +43,8 @@ TODO
 		- [ ] Search/Filter by day
 		- [ ] Search/Filter by timeslot
 		- [ ] Search/Filter by local
+
+Low-priority or optional TODO
+=================
 - [ ] Thumbnails for non-image types on admin list
 - [ ] Send emails on submission (with the direct URLs)
-
-Done
-====
-- [x] Time slots
-- [x] Set up basic project
-- [x] Default upload page
-- [x] Actually upload files
-- [x] Add admin interface
-- [x] Allow access to submission page with direct url
-- [x] Add admin login
-- [x] Upload new versions
-- [x] Fix login reactiveness
-- [x] Add preview
-  - [x] Image
-  - [x] PDF
-  - [x] Video
-- [x] Download
-- [x] Add file restrictions
