@@ -44,7 +44,9 @@ class FilePreview extends Component {
 		return (
 			<div>
 				{preview}
-				<RaisedButton label="Download" primary={true} />
+				<a href={file.url({download: true})}>
+					<RaisedButton label="Download" primary={true} />
+				</a>
 			</div>
 		);
 	}

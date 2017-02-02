@@ -19,8 +19,10 @@ export default class Login extends Component {
 			this.setState({passwordError: 'Password required'});
 		} else {
 			Meteor.loginWithPassword(this.state.username, this.state.password, (err) => {
-				console.error("Error: ", err);
-				if (err) this.setState({error: err.reason});
+				if (err) {
+					console.error("Error: ", err);
+					this.setState({error: err.reason});
+				}
 			});
 		}
 	}
@@ -42,12 +44,14 @@ export default class Login extends Component {
 					floatingLabelText='username'
 					errorText={this.state.usernameError}
 					onChange={this.onChange.bind(this, 'username')}
+					onKeyPress={(e) => {if (e.key === 'Enter') this.login()}}
 				/>
 				<TextField
 					floatingLabelText='password'
 					type='password'
 					errorText={this.state.passwordError}
 					onChange={this.onChange.bind(this, 'password')}
+					onKeyPress={(e) => {if (e.key === 'Enter') this.login()}}
 				/>
 				<div style={{color: 'red'}}>{this.state.error}</div>
 				<RaisedButton primary={true} label='login' onTouchTap={this.login}/>

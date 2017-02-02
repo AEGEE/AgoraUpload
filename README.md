@@ -16,10 +16,19 @@ TODO
 =====
 
 - [ ] Write a readme
-  - [x] Installation
-  - [x] Running
-  - [ ] Configuration(?)
-  - [ ] Screenshots
+	- [x] Installation
+	- [x] Running
+	- [ ] Configuration(?)
+	- [ ] Screenshots
+- [ ] Add time slots (in settings.json)
+- [ ] Admin page
+	- [ ] Customizable sorting
+	- [ ] Searching
+- [ ] Thumbnails for non-image types on admin list
+- [ ] Send emails on submission (with the direct URLs)
+
+Done
+====
 - [x] Set up basic project
 - [x] Default upload page
 - [x] Actually upload files
@@ -27,9 +36,10 @@ TODO
 - [x] Allow access to submission page with direct url
 - [x] Add admin login
 - [x] Upload new versions
-- [ ] Email confirmation
-- [ ] Send emails on submission (with the direct URLs)
-- [ ] Add preview
+- [x] Fix login reactiveness
+- [x] Add preview
   - [x] Image
   - [x] PDF
   - [x] Video
+- [x] Download
+- [x] Add file restrictions

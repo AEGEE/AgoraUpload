@@ -16,7 +16,7 @@ import PageLoading from '/client/loader.jsx';
 import Login from '/client/Login.jsx';
 import { Submission, SubmissionFiles } from '/lib/Submission.js';
 
-export default class UploadPage extends Component {
+class UploadPage extends Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
@@ -48,6 +48,12 @@ export default class UploadPage extends Component {
 				local: this.state.local,
 				timeslot: this.state.timeslot,
 				email: this.state.email,
+			}, (error, result) => {
+				if (error) {
+					this.setState({error: error.reason});
+				} else {
+					this.setState({directLink: result});
+				}
 			});
 		});
 	}
@@ -96,6 +102,65 @@ export default class UploadPage extends Component {
 			}
 		}
 
+		let uploadPanel;
+		if (this.state.directLink) {
+			let url = location.protocol + '//' + location.host + '/submission/' + this.state.directLink;
+			uploadPanel = (
+				<div>
+					Success! You can access your submission at <a target='#' href={url}>{url}</a>.<br />
+					<b>Save this address!</b> This is the only way to upload a new version later, or to see what
+					you have uploaded!
+					<RaisedButton
+						label="Upload another"
+						style={{marginTop: '20px'}}
+						onTouchTap={() => {
+							this.setState({directLink: undefined});
+						}}
+					/>
+				</div>
+			);
+		} else {
+			uploadPanel = (
+				<div>
+					<SelectField
+						floatingLabelText="Local"
+						value={this.state.local}
+						onChange={(event, index, value) => {
+							this.setState({local: value});
+						}}
+					>
+						{locals}
+					</SelectField>
+					<TextField
+						onChange={(e, v) => { this.setState({title: v}); }}
+						floatingLabelText="Document Title"
+					/>
+					<TextField
+						onChange={(e, v) => { this.setState({timeslot: v}); }}
+						floatingLabelText="Time Slot"
+						disabled={true}
+					/>
+					<TextField
+						onChange={(e, v) => { this.setState({email: v}); }}
+						floatingLabelText="Your email"
+					/>
+					<div>
+						A confirmation, along with a link where you can submit new versions, will be sent to you on this address.
+					</div>
+
+					<div style={{margin: '20px 0'}}>
+						<RaisedButton label="select file" onTouchTap={() => {
+							this.refs.file.click();
+						}}/>
+						<input ref='file' type='file' id='file-input' style={{display: 'none'}} />
+						<br />
+						{this.state.filename ? (<div>selected: <i>{this.state.filename}</i></div>) : null}
+					</div>
+					<RaisedButton primary={true} label="submit" onTouchTap={this.handleSubmit} />
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Helmet title="Upload" />
@@ -105,46 +170,12 @@ export default class UploadPage extends Component {
 						<div style={{color: 'red', fontWeight: 'bold'}}>
 							{this.state.error}
 						</div>
-						<SelectField
-							floatingLabelText="Local"
-							value={this.state.local}
-							onChange={(event, index, value) => {
-								this.setState({local: value});
-							}}
-						>
-							{locals}
-						</SelectField>
-						<TextField
-							onChange={(e, v) => { this.setState({title: v}); }}
-							floatingLabelText="Document Title"
-						/>
-						<TextField
-							onChange={(e, v) => { this.setState({timeslot: v}); }}
-							floatingLabelText="Time Slot"
-							disabled={true}
-						/>
-						<TextField
-							onChange={(e, v) => { this.setState({email: v}); }}
-							floatingLabelText="Your email"
-						/>
-						<div>
-							A confirmation, along with a link where you can submit new versions, will be sent to you on this address.
-						</div>
-
-						<div style={{margin: '20px 0'}}>
-							<RaisedButton label="select file" onTouchTap={() => {
-								this.refs.file.click();
-							}}/>
-							<input ref='file' type='file' id='file-input' style={{display: 'none'}} />
-							<br />
-							{this.state.filename ? (<div>selected: <i>{this.state.filename}</i></div>) : null}
-						</div>
-						<RaisedButton primary={true} label="submit" onTouchTap={this.handleSubmit} />
+						{uploadPanel}
 					</div>
 				</Paper>
 				<Paper style={{padding: '20px', margin: '30px'}}>
 					<h2>Login as admin</h2>
-					{Meteor.userId() ? (
+					{this.props.user ? (
 						<Link to="/admin">
 							<RaisedButton primary={true} label="Go to submissions" />
 						</Link>
@@ -157,5 +188,8 @@ export default class UploadPage extends Component {
 	}
 }
 
-// export default createContainer((props) => {
-// }, UploadPage);
+export default createContainer((props) => {
+	return {
+		user: Meteor.user(),
+	}
+}, UploadPage);
