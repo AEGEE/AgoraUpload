@@ -3,19 +3,21 @@ import { HTTP } from 'meteor/http';
 import { Accounts } from 'meteor/accounts-base';
 
 let locals;
+let timeslots = [];
 Meteor.startup(() => {
 	console.log("Server started");
 
 	if (Meteor.isServer) {
 		// Re-create admin user so we're sure username and password are correct
 		console.log("Creating admin user");
-		let credentials = JSON.parse(Assets.getText('settings.json'));
+		let settings = JSON.parse(Assets.getText('settings.json'));
 		Meteor.users.remove({});
 		Accounts.createUser({
-			username: credentials.username,
-			password: credentials.password,
-			email: credentials.email,
+			username: settings.username,
+			password: settings.password,
+			email: settings.email,
 		});
+		timeslots = settings.timeslots;
 	}
 
 	// Fetch up-to-date locals
@@ -31,7 +33,10 @@ Meteor.startup(() => {
 	};
 });
 
-Meteor.methods({getLocals() {
+Meteor.methods({getData() {
 	if (!locals) throw new Error('Locals data was not loaded yet');
-	return locals;
+	return {
+		locals: locals,
+		timeslots: timeslots,
+	};
 }});

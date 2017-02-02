@@ -1,7 +1,26 @@
 // Copy to /private/settings.json to use. Can not be read from the client.
 // DO NOT HAVE THIS PUBLIC ANYWHERE.
 {
+	"upload": "../uploads",
 	"username": "admin-user",
 	"password": "admin-pass",
-	"email": "admin-email"
+	"email": "admin-email",
+	"timeslots": {
+		"2017-02-23": [
+			"0900-1300",
+			"1500-1700"
+		],
+		"2017-02-24": [
+			"morning plenary",
+			"evening plenary"
+		],
+		"2017-02-25": [
+			"slot 1",
+			"slot 2"
+		],
+		"date": [
+			"display-time-slot-1",
+			"display-time-slot-2"
+		]
+	}
 }

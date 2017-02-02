@@ -44,8 +44,26 @@ class AdminPage extends Component {
 				<Helmet title={this.props.submission.title} />
 				<Paper style={{padding: '20px'}}>
 					<h1>{this.props.submission.title}</h1>
-					<h3>local: {this.props.submission.local}</h3>
-					<h3>version: {this.props.submission.version}</h3>
+					<table>
+						<tbody>
+							<tr>
+								<td>Local:</td>
+								<td>{this.props.submission.local}</td>
+							</tr>
+							<tr>
+								<td>Timeslot:</td>
+								<td>{this.props.submission.timeslot}</td>
+							</tr>
+							<tr>
+								<td>Version:</td>
+								<td>{this.props.submission.version}</td>
+							</tr>
+							<tr>
+								<td>Contact:</td>
+								<td>{this.props.submission.email}</td>
+							</tr>
+						</tbody>
+					</table>
 					<FilePreview code={this.props.submission.file} />
 					<div style={{marginTop: '20px', display: 'flex', justifyContent: 'space-between', maxWidth: '330px'}}>
 						<RaisedButton primary={true}

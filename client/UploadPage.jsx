@@ -59,7 +59,7 @@ class UploadPage extends Component {
 	}
 
 	componentWillMount() {
-		Meteor.call('getLocals', (err, data) => {
+		Meteor.call('getData', (err, data) => {
 			if (err) {
 				console.error(err);
 				this.setState({
@@ -70,7 +70,8 @@ class UploadPage extends Component {
 			}
 			console.log('Locals: ', data);
 			this.setState({
-				locals: data,
+				locals: data.locals,
+				timeslots: data.timeslots,
 				ready: true,
 			});
 		});
@@ -92,22 +93,12 @@ class UploadPage extends Component {
 	render() {
 		if (!this.state.ready) return (<PageLoading />);
 
-		let locals = [];
-		if (this.state.locals) {
-			for (let code in this.state.locals) {
-				let name = this.state.locals[code];
-				locals.push(
-					<MenuItem value={code} primaryText={name} key={code}/>
-				);
-			}
-		}
-
 		let uploadPanel;
 		if (this.state.directLink) {
 			let url = location.protocol + '//' + location.host + '/submission/' + this.state.directLink;
 			uploadPanel = (
 				<div>
-					Success! You can access your submission at <a target='#' href={url}>{url}</a>.<br />
+					Success! You can access your submission at <a target='#' href={url} style={{wordBreak: 'break-word'}}>{url}</a>.<br />
 					<b>Save this address!</b> This is the only way to upload a new version later, or to see what
 					you have uploaded!
 					<RaisedButton
@@ -120,6 +111,28 @@ class UploadPage extends Component {
 				</div>
 			);
 		} else {
+			let locals = [];
+			if (this.state.locals) {
+				for (let code in this.state.locals) {
+					let name = this.state.locals[code];
+					locals.push(
+						<MenuItem value={code} primaryText={name} key={code}/>
+					);
+				}
+			}
+
+			let timeslots = [];
+			if (this.state.timeslots) {
+				for (let date in this.state.timeslots) {
+					for (let slot of this.state.timeslots[date]) {
+						let slotString = date + ' ' + slot;
+						timeslots.push(
+							<MenuItem value={slotString} primaryText={slotString} key={slotString} />
+						);
+					}
+				}
+			}
+
 			uploadPanel = (
 				<div>
 					<SelectField
@@ -135,17 +148,24 @@ class UploadPage extends Component {
 						onChange={(e, v) => { this.setState({title: v}); }}
 						floatingLabelText="Document Title"
 					/>
-					<TextField
-						onChange={(e, v) => { this.setState({timeslot: v}); }}
+					<SelectField
+						onChange={(event, index, value) => {
+							this.setState({timeslot: value});
+						}}
+						value={this.state.timeslot}
 						floatingLabelText="Time Slot"
-						disabled={true}
-					/>
+					>
+						{timeslots}
+					</SelectField>
 					<TextField
 						onChange={(e, v) => { this.setState({email: v}); }}
 						floatingLabelText="Your email"
 					/>
-					<div>
-						A confirmation, along with a link where you can submit new versions, will be sent to you on this address.
+					<div style={{margin: '20px 0'}}>
+						The IT-Responsible or chair team can use this email to get in contact with you if there are any questions about your submission.
+					</div>
+					<div style={{margin: '20px 0'}}>
+						You will get a link where you can access this file after uploading. You can also upload new versions here.
 					</div>
 
 					<div style={{margin: '20px 0'}}>

@@ -17,6 +17,7 @@ import Submissions from '/lib/Submission.js';
 class AdminPage extends Component {
 	constructor(props, context) {
 		super(props, context);
+		this.state = {};
 	}
 
 	componentWillMount() {
@@ -24,10 +25,33 @@ class AdminPage extends Component {
 			if (Meteor.loggingIn()) return;
 			if (!Meteor.userId()) browserHistory.push('/');
 		});
+
+		Meteor.call('getData', (err, data) => {
+			if (err) {
+				console.error(err);
+				this.setState({
+					error: 'Something went wrong while fetching the locals. Please notify the IT responsible if this problem persists.',
+				});
+				return;
+			}
+			console.log('Locals: ', data);
+			this.setState({
+				locals: data.locals,
+			});
+		});
 	}
 
 	render() {
-		if (!this.props.ready) return (<PageLoading />);
+		if (!this.props.ready && !(this.state.locals || this.state.error)) return (<PageLoading />);
+		if (this.state.error) {
+			return (
+				<Paper style={{padding: '20px'}}>
+					<div style={{color: 'red'}}>
+						{this.state.error}
+					</div>
+				</Paper>
+			);
+		}
 
 		let submissions = [];
 		this.props.submissions.forEach((submission) => {
@@ -37,15 +61,22 @@ class AdminPage extends Component {
 				icon = (<Avatar src={file.url()} />);
 			}
 
+			let date = submission.updatedAt;
+			let dateString = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+
+			let localString = this.state.locals[submission.local];
+
 			submissions.push(
-				<Link key={submission._id} to={'/submission/' + submission._id}>
-					<ListItem
-						primaryText={submission.title}
-						secondaryText={'v'+submission.version + ', ' + submission.local + ', ' + submission.updatedAt}
-						rightAvatar={icon}
-						style={{textDecoration: 'none'}}
-					/>
-				</Link>
+				<ListItem
+					key={submission._id}
+					primaryText={submission.title}
+					secondaryText={'v'+submission.version + ', ' + localString + ', ' + dateString}
+					rightAvatar={icon}
+					style={{textDecoration: 'none'}}
+					onTouchTap={() => {
+						browserHistory.push('/submission/' + submission._id);
+					}}
+				/>
 			);
 		});
 		return (
