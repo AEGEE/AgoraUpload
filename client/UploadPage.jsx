@@ -12,6 +12,8 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import PageLoading from '/client/loader.jsx';
+import Login from '/client/Login.jsx';
 import { Submission, SubmissionFiles } from '/lib/Submission.js';
 
 export default class UploadPage extends Component {
@@ -82,7 +84,7 @@ export default class UploadPage extends Component {
 	}
 
 	render() {
-		if (!this.state.ready) return (<div>Loading</div>);
+		if (!this.state.ready) return (<PageLoading />);
 
 		let locals = [];
 		if (this.state.locals) {
@@ -142,9 +144,13 @@ export default class UploadPage extends Component {
 				</Paper>
 				<Paper style={{padding: '20px', margin: '30px'}}>
 					<h2>Login as admin</h2>
-					<Link to='/admin'>
-						<RaisedButton primary={true} label="Just go to the admin page for now" />
-					</Link>
+					{Meteor.userId() ? (
+						<Link to="/admin">
+							<RaisedButton primary={true} label="Go to submissions" />
+						</Link>
+					) : (
+						<Login />
+					)}
 				</Paper>
 			</div>
 		);

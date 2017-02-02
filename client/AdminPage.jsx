@@ -5,22 +5,30 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Submission, SubmissionFiles } from '/lib/Submission.js';
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 
 import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 
+import PageLoading from '/client/loader.jsx';
 import Submissions from '/lib/Submission.js';
 
-// TODO: Disallow page when not logged in
 class AdminPage extends Component {
 	constructor(props, context) {
 		super(props, context);
 	}
 
+	componentWillMount() {
+		Tracker.autorun(() => {
+			if (Meteor.loggingIn()) return;
+			if (!Meteor.userId()) browserHistory.push('/');
+		});
+	}
+
 	render() {
-		if (!this.props.ready) return (<div>Loading...</div>);
+		if (!this.props.ready) return (<PageLoading />);
+
 		let submissions = [];
 		this.props.submissions.forEach((submission) => {
 			let icon;
@@ -64,6 +72,6 @@ export default createContainer((props) => {
 	return {
 		submissions: submissions,
 		files: files,
-		ready: submissionHandle.ready() && submissionFilesHandle.ready(),
+		ready: submissionHandle.ready() && submissionFilesHandle.ready() && !Meteor.loggingIn(),
 	};
 }, AdminPage);
