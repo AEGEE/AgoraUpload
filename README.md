@@ -30,21 +30,4 @@ After initial installation, you can simply start the app again by running `meteo
 TODO
 =====
 
-- [ ] Write a readme
-	- [x] Installation
-	- [x] Running
-	- [x] Configuration
-	- [ ] Screenshots
-- [ ] Change name and/or local
-- [ ] Admin page
-	- [ ] Customizable sorting
-	- [ ] Searching
-		- [ ] Search by title
-		- [ ] Search/Filter by day
-		- [ ] Search/Filter by timeslot
-		- [ ] Search/Filter by local
-
-Low-priority or optional TODO
-=================
-- [ ] Thumbnails for non-image types on admin list
-- [ ] Send emails on submission (with the direct URLs)
+- [ ] Add some screenshots
