@@ -68,7 +68,7 @@ class UploadPage extends Component {
 				});
 				return;
 			}
-			console.log('Locals: ', data);
+			console.log('Body: ', data);
 			this.setState({
 				locals: data.locals,
 				timeslots: data.timeslots,
