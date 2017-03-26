@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 
 // TODO: Show state of current submission
 // TODO: Show preview
@@ -38,6 +38,20 @@ class AdminPage extends Component {
 
 	render() {
 		if (!this.props.ready) return (<div>Loading</div>);
+
+		let adminBackButton;
+		if (this.props.loggedIn) {
+			adminBackButton = (
+				<div style={{margin: '20px 0'}}>
+					<RaisedButton
+						label="Back"
+						onTouchTap={() => {
+							browserHistory.goBack();
+						}}
+					/>
+				</div>
+			);
+		}
 
 		return (
 			<div>
@@ -87,6 +101,7 @@ class AdminPage extends Component {
 							}}
 						/>
 					</div>
+					{adminBackButton}
 				</Paper>
 			</div>
 		);
@@ -100,5 +115,6 @@ export default createContainer((props) => {
 	return {
 		ready: submissionHandle.ready && submission,
 		submission: submission,
+		loggedIn: !!Meteor.userId(),
 	};
 }, AdminPage);
