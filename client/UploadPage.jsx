@@ -28,6 +28,10 @@ class UploadPage extends Component {
 	}
 
 	_handleSubmit() {
+		this.setState({
+			error: '',
+		});
+
 		let files = this.refs.file.files;
 		if (!files.length) {
 			this.setState({error: 'No file uploaded.'});
