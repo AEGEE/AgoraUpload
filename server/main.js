@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 import { Accounts } from 'meteor/accounts-base';
 
-let locals;
+let bodies;
 let timeslots = [];
 Meteor.startup(() => {
 	console.log("Server started");
@@ -26,23 +26,26 @@ Meteor.startup(() => {
 		timeslots = settings.timeslots;
 	}
 
-	// Fetch up-to-date locals
-	console.log("Fetching locals");
-	HTTP.get("https://130.89.148.25/locals.json", {}, (err, json) => {
-		console.log("Got data, now parse:", err, json);
-		data = JSON.parse(json);
+	// Fetch up-to-date bodies
+	console.log("Fetching bodies");
+	HTTP.get("https://www.locals.aegee.org/locals.json", {}, (err, response) => {
+		if (err) {
+			console.error("Error getting bodies data:", err);
+		} else {
+			bodies = {}
+			let data = JSON.parse(response.content);
+			for (let body of data.Bodies) {
+				bodies[body.BodyCode] = body.BodyName;
+			}
+			// console.log('Bodies set to', bodies);
+		}
 	});
-
-	locals = {
-		'ENS': 'AEGEE-Enschede',
-		'CD': 'Comite Directeur',
-	};
 });
 
 Meteor.methods({getData() {
-	if (!locals) throw new Error('Locals data was not loaded yet');
+	if (!bodies) throw new Error('bodies data was not loaded yet');
 	return {
-		locals: locals,
+		bodies: bodies,
 		timeslots: timeslots,
 	};
 }});

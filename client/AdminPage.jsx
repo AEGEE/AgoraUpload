@@ -31,19 +31,19 @@ class AdminPage extends Component {
 			if (err) {
 				console.error(err);
 				this.setState({
-					error: 'Something went wrong while fetching the locals. Please notify the IT responsible if this problem persists.',
+					error: 'Something went wrong while fetching the bodies. Please notify the IT responsible if this problem persists.',
 				});
 				return;
 			}
-			console.log('Locals: ', data);
+			console.log('bodies: ', data);
 			this.setState({
-				locals: data.locals,
+				bodies: data.bodies,
 			});
 		});
 	}
 
 	render() {
-		if (!this.props.ready && !(this.state.locals || this.state.error)) return (<PageLoading />);
+		if (!this.props.ready && !(this.state.bodies || this.state.error)) return (<PageLoading />);
 		if (this.state.error) {
 			return (
 				<Paper style={{padding: '20px'}}>
@@ -65,13 +65,13 @@ class AdminPage extends Component {
 			let date = submission.updatedAt;
 			let dateString = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
 
-			let localString = this.state.locals[submission.local];
+			let bodiestring = this.state.bodies[submission.body];
 
 			submissions.push(
 				<ListItem
 					key={submission._id}
 					primaryText={submission.title}
-					secondaryText={'v'+submission.version + ', ' + localString + ', ' + dateString}
+					secondaryText={'v'+submission.version + ', ' + bodiestring + ', ' + dateString}
 					rightAvatar={icon}
 					style={{textDecoration: 'none'}}
 					onTouchTap={() => {

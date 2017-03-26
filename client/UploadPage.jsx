@@ -21,6 +21,7 @@ class UploadPage extends Component {
 		super(props, context);
 		this.state = {
 			ready: false,
+			timeslot: "DEFAULT",
 		};
 
 		this.handleSubmit = this._handleSubmit.bind(this);
@@ -44,12 +45,17 @@ class UploadPage extends Component {
 
 			console.log("Refs:", this.refs, this.refs.title);
 
+			let timeslot = this.state.timeslot;
+			if (timeslot == "DEFAULT") timeslot = null;
+
 			Meteor.call('submit', {
 				file: fileObj._id,
 				title: this.state.title,
-				local: this.state.local,
-				timeslot: this.state.timeslot,
+				body: this.state.body,
+				timeslot: timeslot,
+				name: this.state.name,
 				email: this.state.email,
+				notes: this.state.notes,
 			}, (error, result) => {
 				if (error) {
 					this.setState({error: error.reason});
@@ -65,14 +71,14 @@ class UploadPage extends Component {
 			if (err) {
 				console.error(err);
 				this.setState({
-					error: 'Something went wrong while fetching the locals. Please notify the IT responsible if this problem persists.',
+					error: 'Something went wrong while fetching the bodies. Please notify the IT responsible if this problem persists.',
 					ready: true,
 				});
 				return;
 			}
-			console.log('Body: ', data);
+			console.log('Data received:', data);
 			this.setState({
-				locals: data.locals,
+				bodies: data.bodies,
 				timeslots: data.timeslots,
 				ready: true,
 			});
@@ -113,17 +119,19 @@ class UploadPage extends Component {
 				</div>
 			);
 		} else {
-			let locals = [];
-			if (this.state.locals) {
-				for (let code in this.state.locals) {
-					let name = this.state.locals[code];
-					locals.push(
+			let bodies = [];
+			if (this.state.bodies) {
+				for (let code in this.state.bodies) {
+					let name = this.state.bodies[code];
+					bodies.push(
 						<MenuItem value={code} primaryText={name} key={code}/>
 					);
 				}
 			}
 
-			let timeslots = [];
+			let timeslots = [(
+				<MenuItem value="DEFAULT" primaryText="I'm not sure" key="DEFAULT" />
+			)];
 			if (this.state.timeslots) {
 				for (let date in this.state.timeslots) {
 					for (let slot of this.state.timeslots[date]) {
@@ -138,15 +146,17 @@ class UploadPage extends Component {
 			uploadPanel = (
 				<div>
 					<SelectField
-						floatingLabelText="Local"
-						value={this.state.local}
+						floatingLabelText="body"
+						style={{width: '100%'}}
+						value={this.state.body}
 						onChange={(event, index, value) => {
-							this.setState({local: value});
+							this.setState({body: value});
 						}}
 					>
-						{locals}
+						{bodies}
 					</SelectField>
 					<TextField
+						style={{width: '100%'}}
 						onChange={(e, v) => { this.setState({title: v}); }}
 						floatingLabelText="Document Title"
 					/>
@@ -154,24 +164,37 @@ class UploadPage extends Component {
 						onChange={(event, index, value) => {
 							this.setState({timeslot: value});
 						}}
+						style={{width: '100%'}}
 						value={this.state.timeslot}
 						floatingLabelText="Time Slot"
 					>
 						{timeslots}
 					</SelectField>
 					<TextField
+						style={{width: '100%'}}
+						onChange={(e, v) => { this.setState({name: v}); }}
+						floatingLabelText="Your name"
+					/>
+					<TextField
+						style={{width: '100%'}}
 						onChange={(e, v) => { this.setState({email: v}); }}
 						floatingLabelText="Your email"
 					/>
-					<div style={{margin: '20px 0'}}>
+					<div
+						style={{margin: '20px 0', width: '100%'}}>
 						The IT-Responsible or chair team can use this email to get in contact with you if there are any questions about your submission.
 					</div>
-					<div style={{margin: '20px 0'}}>
+					<div style={{margin: '20px 0', width: '100%'}}>
 						You will get a link where you can access this file after uploading. You can also upload new versions here.
 					</div>
 
-					<div style={{margin: '20px 0'}}>
-						<RaisedButton label="select file" onTouchTap={() => {
+					<TextField
+						style={{width: '100%'}}
+						onChange={(e, v) => { this.setState({notes: v}); }}
+						floatingLabelText="Notes to IT"
+					/>
+					<div style={{margin: '20px 0', width: '100%'}}>
+						<RaisedButton label="Add file" onTouchTap={() => {
 							this.refs.file.click();
 						}}/>
 						<input ref='file' type='file' id='file-input' style={{display: 'none'}} />

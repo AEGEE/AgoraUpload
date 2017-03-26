@@ -62,7 +62,7 @@ class AdminPage extends Component {
 						<tbody>
 							<tr>
 								<td>Body:</td>
-								<td>{this.props.submission.local}</td>
+								<td>{this.props.submission.body}</td>
 							</tr>
 							<tr>
 								<td>Timeslot:</td>
