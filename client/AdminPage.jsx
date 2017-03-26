@@ -10,6 +10,7 @@ import { browserHistory, Link } from 'react-router';
 import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import PageLoading from '/client/loader.jsx';
 import Submissions from '/lib/Submission.js';
@@ -87,6 +88,12 @@ class AdminPage extends Component {
 					<List>
 						{submissions}
 					</List>
+					<RaisedButton primary={true}
+						label="Upload"
+						onTouchTap={() => {
+							browserHistory.push('/');
+						}}
+					/>
 				</Paper>
 			</div>
 		);

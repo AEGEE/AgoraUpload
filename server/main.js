@@ -12,6 +12,12 @@ Meteor.startup(() => {
 		console.log("Creating admin user");
 		let settings = JSON.parse(Assets.getText('settings.json'));
 		Meteor.users.remove({});
+
+		Accounts.config({
+			forbidClientAccountCreation: true,
+			loginExpirationInDays: 7,
+		});
+
 		Accounts.createUser({
 			username: settings.username,
 			password: settings.password,

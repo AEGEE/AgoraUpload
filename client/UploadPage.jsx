@@ -36,7 +36,9 @@ class UploadPage extends Component {
 		SubmissionFiles.insert(files[0], (err, fileObj) => {
 			console.log('Inserted file:', err, fileObj);
 			if (err) {
-				this.setState({error: 'Error while uploading file: ' + err});
+				let error = SubmissionFiles.lastError;
+				if (!error) error = err;
+				this.setState({error: 'Error while uploading file: ' + error});
 				return;
 			}
 
