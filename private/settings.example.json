@@ -5,6 +5,8 @@
 	"username": "admin-user",
 	"password": "admin-pass",
 	"email": "admin-email",
+	"agora-name": "Enschede",
+	"upload-password": "public-password",
 	"timeslots": {
 		"2017-02-23": [
 			"0900-1300",

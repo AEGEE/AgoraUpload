@@ -60,9 +60,11 @@ class UploadPage extends Component {
 				name: this.state.name,
 				email: this.state.email,
 				notes: this.state.notes,
+				public_password: this.state.public_password,
 			}, (error, result) => {
 				if (error) {
-					this.setState({error: error.reason});
+					console.error("Error:", error);
+					this.setState({error: error.reason ? error.reason : error.error});
 				} else {
 					this.setState({directLink: result});
 				}
@@ -117,7 +119,10 @@ class UploadPage extends Component {
 						label="Upload another"
 						style={{marginTop: '20px'}}
 						onTouchTap={() => {
-							this.setState({directLink: undefined});
+							this.setState({
+								directLink: undefined,
+								filename: '',
+							});
 						}}
 					/>
 				</div>
@@ -176,11 +181,13 @@ class UploadPage extends Component {
 					</SelectField>
 					<TextField
 						style={{width: '100%'}}
+						defaultValue={this.state.name}
 						onChange={(e, v) => { this.setState({name: v}); }}
 						floatingLabelText="Your name"
 					/>
 					<TextField
 						style={{width: '100%'}}
+						defaultValue={this.state.email}
 						onChange={(e, v) => { this.setState({email: v}); }}
 						floatingLabelText="Your email"
 					/>
@@ -197,6 +204,11 @@ class UploadPage extends Component {
 						onChange={(e, v) => { this.setState({notes: v}); }}
 						floatingLabelText="Notes to IT"
 					/>
+					<TextField
+						style={{width: '100%'}}
+						onChange={(e, v) => { this.setState({public_password: v}); }}
+						floatingLabelText="Upload Password"
+					/>
 					<div style={{margin: '20px 0', width: '100%'}}>
 						<RaisedButton label="Add file" onTouchTap={() => {
 							this.refs.file.click();
@@ -212,10 +224,10 @@ class UploadPage extends Component {
 
 		return (
 			<div>
-				<Helmet title="Upload" />
+				<Helmet title="Agora Enschede Upload" />
 				<Paper style={{padding: '20px', margin: '30px'}}>
 					<div>
-						<h1>Upload</h1>
+						<h1>Agora Enschede Upload</h1>
 						<div style={{color: 'red', fontWeight: 'bold'}}>
 							{this.state.error}
 						</div>
