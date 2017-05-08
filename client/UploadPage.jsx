@@ -217,6 +217,11 @@ class UploadPage extends Component {
 						<br />
 						{this.state.filename ? (<div>selected: <i>{this.state.filename}</i></div>) : null}
 					</div>
+
+					<div style={{color: 'red', fontWeight: 'bold'}}>
+						{this.state.error}
+					</div>
+
 					<RaisedButton primary={true} label="submit" onTouchTap={this.handleSubmit} />
 				</div>
 			);
@@ -228,9 +233,6 @@ class UploadPage extends Component {
 				<Paper style={{padding: '20px', margin: '30px'}}>
 					<div>
 						<h1>Agora Enschede Upload</h1>
-						<div style={{color: 'red', fontWeight: 'bold'}}>
-							{this.state.error}
-						</div>
 						{uploadPanel}
 					</div>
 				</Paper>
