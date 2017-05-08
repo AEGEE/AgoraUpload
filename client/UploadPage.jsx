@@ -166,7 +166,7 @@ class UploadPage extends Component {
 					</SelectField>
 					<TextField
 						style={{width: '100%'}}
-						onChange={(e, v) => { this.setState({title: v}); }}
+						onChange={(e, v) => { this.setState({title: v.trim()}); }}
 						floatingLabelText="Document Title"
 					/>
 					<SelectField
@@ -182,13 +182,13 @@ class UploadPage extends Component {
 					<TextField
 						style={{width: '100%'}}
 						defaultValue={this.state.name}
-						onChange={(e, v) => { this.setState({name: v}); }}
+						onChange={(e, v) => { this.setState({name: v.trim()}); }}
 						floatingLabelText="Your name"
 					/>
 					<TextField
 						style={{width: '100%'}}
 						defaultValue={this.state.email}
-						onChange={(e, v) => { this.setState({email: v}); }}
+						onChange={(e, v) => { this.setState({email: v.trim()}); }}
 						floatingLabelText="Your email"
 					/>
 					<div
@@ -201,12 +201,12 @@ class UploadPage extends Component {
 
 					<TextField
 						style={{width: '100%'}}
-						onChange={(e, v) => { this.setState({notes: v}); }}
+						onChange={(e, v) => { this.setState({notes: v.trim()}); }}
 						floatingLabelText="Notes to IT"
 					/>
 					<TextField
 						style={{width: '100%'}}
-						onChange={(e, v) => { this.setState({public_password: v}); }}
+						onChange={(e, v) => { this.setState({public_password: v.trim()}); }}
 						floatingLabelText="Upload Password"
 					/>
 					<div style={{margin: '20px 0', width: '100%'}}>
