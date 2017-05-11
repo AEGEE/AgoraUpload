@@ -89,7 +89,7 @@ class AdminPage extends Component {
 						{submissions}
 					</List>
 					<RaisedButton primary={true}
-						label="Upload"
+						label="Upload Page"
 						onTouchTap={() => {
 							browserHistory.push('/');
 						}}
