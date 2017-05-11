@@ -53,6 +53,8 @@ class AdminPage extends Component {
 			);
 		}
 
+		let date = this.props.submission.updatedAt;
+
 		return (
 			<div>
 				<Helmet title={this.props.submission.title} />
@@ -74,7 +76,15 @@ class AdminPage extends Component {
 							</tr>
 							<tr>
 								<td>Contact:</td>
-								<td>{this.props.submission.email}</td>
+								<td>{this.props.submission.name} ({this.props.submission.email})</td>
+							</tr>
+							<tr>
+								<td>Notes:</td>
+								<td>{this.props.submission.notes}</td>
+							</tr>
+							<tr>
+								<td>Last updated at:</td>
+								<td>{date.toLocaleDateString()} {date.toLocaleTimeString()}</td>
 							</tr>
 						</tbody>
 					</table>
