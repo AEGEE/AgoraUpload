@@ -49,6 +49,8 @@ class UploadPage extends Component {
 
 			console.log("Refs:", this.refs, this.refs.title);
 
+			let fileId = fileObj._id;
+
 			let timeslot = this.state.timeslot;
 			if (timeslot == "DEFAULT") timeslot = null;
 
@@ -65,6 +67,7 @@ class UploadPage extends Component {
 				if (error) {
 					console.error("Error:", error);
 					this.setState({error: error.reason ? error.reason : error.error});
+					// Meteor.clearInterval(interval);
 				} else {
 					this.setState({directLink: result});
 				}
