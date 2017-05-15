@@ -13,6 +13,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import PageLoading from '/client/loader.jsx';
+import UploadProgress from '/client/UploadProgress.jsx';
 import Login from '/client/Login.jsx';
 import { Submission, SubmissionFiles } from '/lib/Submission.js';
 
@@ -69,7 +70,7 @@ class UploadPage extends Component {
 					this.setState({error: error.reason ? error.reason : error.error});
 					// Meteor.clearInterval(interval);
 				} else {
-					this.setState({directLink: result});
+					this.setState({lastSubmissionId: result});
 				}
 			});
 		});
@@ -111,24 +112,13 @@ class UploadPage extends Component {
 		if (!this.state.ready) return (<PageLoading />);
 
 		let uploadPanel;
-		if (this.state.directLink) {
-			let url = location.protocol + '//' + location.host + '/submission/' + this.state.directLink;
+		if (this.state.lastSubmissionId) {
 			uploadPanel = (
-				<div>
-					Success! You can access your submission at <a target='#' href={url} style={{wordBreak: 'break-word'}}>{url}</a>.<br />
-					<b>Save this address!</b> This is the only way to upload a new version later, or to see what
-					you have uploaded!
-					<RaisedButton
-						label="Upload another"
-						style={{marginTop: '20px'}}
-						onTouchTap={() => {
-							this.setState({
-								directLink: undefined,
-								filename: '',
-							});
-						}}
-					/>
-				</div>
+				<UploadProgress
+					submission={this.state.lastSubmissionId}
+					onReset={() => {this.setState({lastSubmissionId: null})}}
+				>
+				</UploadProgress>
 			);
 		} else {
 			let bodies = [];

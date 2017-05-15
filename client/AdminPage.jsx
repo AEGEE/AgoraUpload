@@ -63,7 +63,7 @@ class AdminPage extends Component {
 			}
 
 			let date = submission.updatedAt;
-			let dateString = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+			let dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
 			let bodiestring = this.state.bodies[submission.body];
 
