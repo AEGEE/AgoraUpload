@@ -37,7 +37,7 @@ class UploadProgress extends Component {
 			return (
 				<div>
 					<b>Uploading...</b><br />
-					Do not close the page! This page will automatically update once the file is done uploading.<br>
+					Do not close the page! This page will automatically update once the file is done uploading.<br/>
 					Depending on your internet connection, this may take several minutes.
 				</div>
 			);
