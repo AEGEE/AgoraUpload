@@ -28,14 +28,14 @@ Meteor.startup(() => {
 
 	// Fetch up-to-date bodies
 	console.log("Fetching bodies");
-	HTTP.get("https://www.locals.aegee.org/locals.json", {}, (err, response) => {
+	HTTP.get("https://my.aegee.eu/services/oms-core-elixir/api/bodies", {}, (err, response) => {
 		if (err) {
 			console.error("Error getting bodies data:", err);
 		} else {
 			bodies = {}
 			let data = JSON.parse(response.content);
-			for (let body of data.Bodies) {
-				bodies[body.BodyCode] = body.BodyName;
+			for (let body of data.data) {
+				bodies[body.legacy_key] = body.name;
 			}
 			// console.log('Bodies set to', bodies);
 		}
